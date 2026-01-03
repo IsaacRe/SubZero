@@ -148,6 +148,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser = HfArgumentParser(OurArguments)
     args = parser.parse_args_into_dataclasses()[0]
+    args.report_to = ["wandb"]
     print(args)
     return args
 
@@ -594,7 +595,7 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     
     current_date = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    # wandb.init(project='zo-bench', name=args.tag, config=args)
+    wandb.init(project='zo-bench', name=args.tag, config=args)
     tensorboard_log_dir = f"result/{args.task_name}/{args.model_name.split('/')[-1]}/{args.mode}/{args.trainer}/{args.tag}/{current_date}"
     args.logging_dir = os.path.join(tensorboard_log_dir, "logs")
     os.makedirs(args.logging_dir, exist_ok=True)
